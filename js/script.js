@@ -111,11 +111,15 @@ function addCard() {
   render(data);
 }
 function search(){   
- let filter = data.filter(
-  function(item){
-  return  item.area == searchMenu.value;
-  }); 
+ let filter = data.filter(function(item){return  item.area == searchMenu.value;}); 
 render(filter);
+if (filter != ""){
+  document.querySelector("#searchResult-text").textContent = `本次搜尋共 ${filter.length} 筆資料`;
+  render(filter);
+}else{
+  document.querySelector("#searchResult-text").textContent = `本次搜尋共 ${data.length} 筆資料`;
+  render();
+}
 }
 
 
