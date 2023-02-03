@@ -53,17 +53,17 @@ let data = [
   const addBtn = document.querySelector(".addTicket-btn");
   const form = document.querySelector(".addTicket-form");
   const searchMenu = document.querySelector(".regionSearch");
+
   let searchResult = document.querySelector("#searchResult-text").textContent;
   //#endregion
 //#region EventListenner
 searchMenu.addEventListener("change",search);
 addBtn.addEventListener("click", addCard);
 //#endregion
-
 //#region func
-function render(array = data) {
+function render(obj) {
   let str = "";
-  array.forEach(function (item) {
+  obj.forEach(function (item) {
     str += `<li class="ticketCard">
         <div class="ticketCard-img">
           <a href="#">
@@ -108,58 +108,17 @@ function addCard() {
   });
   // console.log(data);
   form.reset();
-  render();
+  render(data);
 }
-function search(){
-  let filter = data.filter(function(item){
-    return item.area == searchMenu.value
-
-    function render(array = data) {
-      let str = "";
-      array.forEach(function (item) {
-        str += `<li class="ticketCard">
-            <div class="ticketCard-img">
-              <a href="#">
-                <img src="${item.imgUrl}" alt="">
-              </a>
-              <div class="ticketCard-region">${item.area}</div>
-              <div class="ticketCard-rank">${item.rate}</div>
-            </div>
-            <div class="ticketCard-content">
-              <div>
-                <h3>
-                  <a href="#" class="ticketCard-name">${item.name}</a>
-                </h3>
-                <p class="ticketCard-description">
-                  ${item.description}
-                </p>
-              </div>
-              <div class="ticketCard-info">
-                <p class="ticketCard-num">
-                  <span><i class="fas fa-exclamation-circle"></i></span>
-                  剩下最後 <span id="ticketCard-num"> ${item.group} </span> 組
-                </p>
-                <p class="ticketCard-price">
-                  TWD <span id="ticketCard-price">$${item.price}</span>
-                </p>
-              </div>
-            </div>
-          </li>`;
-      });
-      list.innerHTML = str;
-    }  })
-  
-  if (filter != ""){
-    document.querySelector("#searchResult-text").textContent = `本次搜尋共 ${filter.length} 筆資料`;
-    render(filter);
-  }else{
-    document.querySelector("#searchResult-text").textContent = `本次搜尋共 ${data.length} 筆資料`;
-    render();
-  }
-  
+function search(){   
+ let filter = data.filter(
+  function(item){
+  return  item.area == searchMenu.value;
+  }); 
+render(filter);
 }
-//#endregion
 
 
-render();
+render(data);
+
   
