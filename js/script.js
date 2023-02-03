@@ -39,9 +39,7 @@ let data = [
   ];
 
 //#endregion
-
-  
-  
+//#region querySelector
   //LV1
   const list = document.querySelector(".ticketCard-area");
   //LV2
@@ -56,71 +54,112 @@ let data = [
   const form = document.querySelector(".addTicket-form");
   const searchMenu = document.querySelector(".regionSearch");
   let searchResult = document.querySelector("#searchResult-text").textContent;
-  
-  function render(array = data) {
-    let str = "";
-    array.forEach(function (item) {
-      str += `<li class="ticketCard">
-          <div class="ticketCard-img">
-            <a href="#">
-              <img src="${item.imgUrl}" alt="">
-            </a>
-            <div class="ticketCard-region">${item.area}</div>
-            <div class="ticketCard-rank">${item.rate}</div>
+  //#endregion
+//#region EventListenner
+searchMenu.addEventListener("change",search);
+addBtn.addEventListener("click", addCard);
+//#endregion
+
+//#region func
+function render(array = data) {
+  let str = "";
+  array.forEach(function (item) {
+    str += `<li class="ticketCard">
+        <div class="ticketCard-img">
+          <a href="#">
+            <img src="${item.imgUrl}" alt="">
+          </a>
+          <div class="ticketCard-region">${item.area}</div>
+          <div class="ticketCard-rank">${item.rate}</div>
+        </div>
+        <div class="ticketCard-content">
+          <div>
+            <h3>
+              <a href="#" class="ticketCard-name">${item.name}</a>
+            </h3>
+            <p class="ticketCard-description">
+              ${item.description}
+            </p>
           </div>
-          <div class="ticketCard-content">
-            <div>
-              <h3>
-                <a href="#" class="ticketCard-name">${item.name}</a>
-              </h3>
-              <p class="ticketCard-description">
-                ${item.description}
-              </p>
-            </div>
-            <div class="ticketCard-info">
-              <p class="ticketCard-num">
-                <span><i class="fas fa-exclamation-circle"></i></span>
-                剩下最後 <span id="ticketCard-num"> ${item.group} </span> 組
-              </p>
-              <p class="ticketCard-price">
-                TWD <span id="ticketCard-price">$${item.price}</span>
-              </p>
-            </div>
+          <div class="ticketCard-info">
+            <p class="ticketCard-num">
+              <span><i class="fas fa-exclamation-circle"></i></span>
+              剩下最後 <span id="ticketCard-num"> ${item.group} </span> 組
+            </p>
+            <p class="ticketCard-price">
+              TWD <span id="ticketCard-price">$${item.price}</span>
+            </p>
           </div>
-        </li>`;
-    });
-    list.innerHTML = str;
-  }
+        </div>
+      </li>`;
+  });
+  list.innerHTML = str;
+}
+function addCard() {
+  data.push({
+    id: Date.now(),
+    name: name.value,
+    imgUrl: imgUrl.value,
+    area: area.value,
+    description: description.value,
+    group: group.value,
+    price: price.value,
+    rate: rate.value
+  });
+  // console.log(data);
+  form.reset();
   render();
+}
+function search(){
+  let filter = data.filter(function(item){
+    return item.area == searchMenu.value
+
+    function render(array = data) {
+      let str = "";
+      array.forEach(function (item) {
+        str += `<li class="ticketCard">
+            <div class="ticketCard-img">
+              <a href="#">
+                <img src="${item.imgUrl}" alt="">
+              </a>
+              <div class="ticketCard-region">${item.area}</div>
+              <div class="ticketCard-rank">${item.rate}</div>
+            </div>
+            <div class="ticketCard-content">
+              <div>
+                <h3>
+                  <a href="#" class="ticketCard-name">${item.name}</a>
+                </h3>
+                <p class="ticketCard-description">
+                  ${item.description}
+                </p>
+              </div>
+              <div class="ticketCard-info">
+                <p class="ticketCard-num">
+                  <span><i class="fas fa-exclamation-circle"></i></span>
+                  剩下最後 <span id="ticketCard-num"> ${item.group} </span> 組
+                </p>
+                <p class="ticketCard-price">
+                  TWD <span id="ticketCard-price">$${item.price}</span>
+                </p>
+              </div>
+            </div>
+          </li>`;
+      });
+      list.innerHTML = str;
+    }  })
   
-  addBtn.addEventListener("click", addCard);
-  function addCard() {
-    data.push({
-      id: Date.now(),
-      name: name.value,
-      imgUrl: imgUrl.value,
-      area: area.value,
-      description: description.value,
-      group: group.value,
-      price: price.value,
-      rate: rate.value
-    });
-    // console.log(data);
-    form.reset();
+  if (filter != ""){
+    document.querySelector("#searchResult-text").textContent = `本次搜尋共 ${filter.length} 筆資料`;
+    render(filter);
+  }else{
+    document.querySelector("#searchResult-text").textContent = `本次搜尋共 ${data.length} 筆資料`;
     render();
   }
-  searchMenu.addEventListener("change",search);
-  function search(){
-    let filter = data.filter(function(item){
-      return item.area == searchMenu.value
-    })
-    
-    if (filter != ""){
-      document.querySelector("#searchResult-text").textContent = `本次搜尋共 ${filter.length} 筆資料`;
-      render(filter);
-    }else{
-      document.querySelector("#searchResult-text").textContent = `本次搜尋共 ${data.length} 筆資料`;
-      render();
-    }
-    
-  }
+  
+}
+//#endregion
+
+
+render();
+  
