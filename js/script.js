@@ -66,7 +66,7 @@ searchMenu.addEventListener("change", search);
 addBtn.addEventListener("click", function(e)
 {
   addCard();
- 
+  preChart(data);
 });
 //#endregion
 //#region func
