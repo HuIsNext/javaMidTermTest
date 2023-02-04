@@ -169,7 +169,7 @@ function loadData() {
     .then(function (response) {
       data = response.data
       render(data);
-      preChart();
+      preChart(data);
     });
 }
 //#endregion
